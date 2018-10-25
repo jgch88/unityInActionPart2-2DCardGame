@@ -16,6 +16,7 @@ public class SceneController : MonoBehaviour {
 	// game state variables
 	private MemoryCard _firstRevealed;
 	private MemoryCard _secondRevealed;
+	private int _score = 0;
 
 	void Start () {
 		Vector3 startPos = originalCard.transform.position; // everything is relative to/offset from this base card
@@ -71,8 +72,25 @@ public class SceneController : MonoBehaviour {
 			_firstRevealed = card;
 		} else {
 			_secondRevealed = card;
-			Debug.Log ("Match? " + (_firstRevealed.id == _secondRevealed.id));
+			// Debug.Log ("Match? " + (_firstRevealed.id == _secondRevealed.id));
+			StartCoroutine(CheckMatch());
 		}
+	}
+
+	private IEnumerator CheckMatch() {
+		if (_firstRevealed.id == _secondRevealed.id) {
+			_score++;
+			Debug.Log ("Score: " + _score);
+		} else {
+			// Pause
+			yield return new WaitForSeconds (.5f);
+
+			_firstRevealed.Unreveal ();
+			_secondRevealed.Unreveal ();
+		}
+
+		_firstRevealed = null;
+		_secondRevealed = null;
 	}
 	
 	// Update is called once per frame
