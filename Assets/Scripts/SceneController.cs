@@ -6,6 +6,7 @@ public class SceneController : MonoBehaviour {
 
 	[SerializeField] private MemoryCard originalCard; // the one card in the scene
 	[SerializeField] private Sprite[] images; // references to sprite assets, you can serialize an Array!
+	[SerializeField] private TextMesh scoreLabel; // simple TextMesh component UI display
 
 	// grid spacing
 	public const int gridRows = 2;
@@ -80,7 +81,8 @@ public class SceneController : MonoBehaviour {
 	private IEnumerator CheckMatch() {
 		if (_firstRevealed.id == _secondRevealed.id) {
 			_score++;
-			Debug.Log ("Score: " + _score);
+			// Debug.Log ("Score: " + _score);
+			scoreLabel.text = "Score: " + _score;
 		} else {
 			// Pause
 			yield return new WaitForSeconds (.5f);
