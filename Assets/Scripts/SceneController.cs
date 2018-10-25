@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SceneController : MonoBehaviour {
+
+	[SerializeField] private MemoryCard originalCard; // the one card in the scene
+	[SerializeField] private Sprite[] images; // references to sprite assets, you can serialize an Array!
+
 	// grid spacing
 	public const int gridRows = 2;
 	public const int gridCols = 4;
 	public const float offsetX = 2f;
 	public const float offsetY = 2.5f;
 
-	[SerializeField] private MemoryCard originalCard; // the one card in the scene
-	[SerializeField] private Sprite[] images; // references to sprite assets, you can serialize an Array!
+	// game state variables
+	private MemoryCard _firstRevealed;
+	private MemoryCard _secondRevealed;
 
 	void Start () {
 		Vector3 startPos = originalCard.transform.position; // everything is relative to/offset from this base card
@@ -55,6 +60,19 @@ public class SceneController : MonoBehaviour {
 			newArray [r] = tmp;
 		}
 		return newArray;
+	}
+
+	public bool canReveal {
+		get {return _secondRevealed == null;}
+	}
+
+	public void CardRevealed(MemoryCard card) {
+		if (_firstRevealed == null) {
+			_firstRevealed = card;
+		} else {
+			_secondRevealed = card;
+			Debug.Log ("Match? " + (_firstRevealed.id == _secondRevealed.id));
+		}
 	}
 	
 	// Update is called once per frame
