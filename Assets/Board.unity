@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardBack: {fileID: 902111790}
+  image: {fileID: 21300000, guid: b673b49086d29da4eb92047e5cc08807, type: 3}
 --- !u!61 &705737243
 BoxCollider2D:
   m_ObjectHideFlags: 0
