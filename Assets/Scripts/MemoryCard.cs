@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class MemoryCard : MonoBehaviour {
 	[SerializeField] private GameObject cardBack;
-	[SerializeField] private Sprite image;
+	[SerializeField] private SceneController controller;
 
-	void Start() {
-		// The Sprite Renderer component is what makes a 2D sprite a sprite
-		// Its main property is "Sprite", which can be set programmatically.
-		// Here we are attaching a sprite into the SerializedField of the script,
-		// which then passes it on to the Sprite Renderer
-		GetComponent<SpriteRenderer> ().sprite = image;
+	private int _id;
+	// getter
+	public int id {
+		get {return _id;} 
+	}
+
+	public void SetCard(int id, Sprite image) {
+		_id = id;
+		GetComponent<SpriteRenderer>().sprite = image;
 	}
 
 	public void OnMouseDown() {
