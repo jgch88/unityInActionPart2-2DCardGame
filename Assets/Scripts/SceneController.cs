@@ -15,6 +15,11 @@ public class SceneController : MonoBehaviour {
 	void Start () {
 		Vector3 startPos = originalCard.transform.position; // everything is relative to/offset from this base card
 
+		// instead of letting cards randomly create without pairing
+		// we define the cardIDs as pairs in an array, then shuffle the array.
+		int[] numbers = { 0, 0, 1, 1, 2, 2, 3, 3 };
+		numbers = ShuffleArray (numbers); // Knuth / Fisher-Yates shuffle algorithm
+
 		for (int i = 0; i < gridCols; i++) {
 			for (int j = 0; j < gridRows; j++) {
 				MemoryCard card;
@@ -24,7 +29,10 @@ public class SceneController : MonoBehaviour {
 					card = Instantiate (originalCard) as MemoryCard; // cloning
 				}
 
-				int id = Random.Range (0, images.Length);
+				// math to go through 0 - 7
+				int index = j * gridCols + i;
+				// getting the specific card enum / symbol from the shuffled numbers array
+				int id = numbers [index];
 				// setting the original card/clones
 				card.SetCard (id, images [id]);
 
@@ -33,6 +41,20 @@ public class SceneController : MonoBehaviour {
 				card.transform.position = new Vector3 (posX, posY, startPos.z);
 			}
 		}
+	}
+
+	// Knuth / Fisher-Yates shuffle
+	// Loops through the array and swaps every element of the array with another randomly
+	// chosen array position.
+	private int[] ShuffleArray(int[] numbers) {
+		int[] newArray = numbers.Clone () as int[];
+		for (int i = 0; i < newArray.Length; i++) {
+			int tmp = newArray [i];
+			int r = Random.Range (i, newArray.Length);
+			newArray [i] = newArray [r];
+			newArray [r] = tmp;
+		}
+		return newArray;
 	}
 	
 	// Update is called once per frame
